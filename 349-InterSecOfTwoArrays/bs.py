@@ -4,6 +4,7 @@ class Solution(object):
         :type nums1: List[int]
         :type nums2: List[int]
         :rtype: List[int]
+        T: NlogN S: 1
         """
         result = set()
         for n in nums1:
