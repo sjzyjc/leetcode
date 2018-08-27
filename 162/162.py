@@ -10,13 +10,10 @@ class Solution:
 
             print(mid)
             if nums[mid] > nums[mid - 1] and nums[mid] > nums[mid + 1]:
-                print('a')
                 return mid
             elif nums[mid] < nums[mid - 1]:
-                print('b')
                 end = mid - 1
             else:
-                print('c')
                 start = mid + 1
 
         return start               

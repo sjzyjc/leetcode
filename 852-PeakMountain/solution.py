@@ -10,14 +10,12 @@ class Solution(object):
         start = 0
         end = len(A) - 1
 
-        while start <= end:
+        while start < end:  #quit when only 1 left, <= will cause dead loop since end will not move to mid - 1
             mid = start + (end - start) // 2
 
             if A[mid] < A[mid + 1]:
-                return mid
-            elif A[mid] > A[mid - 1] and A[mid] < A[mid + 1]:
                 start = mid + 1
             else:
-                end = mid - 1  
+                end = mid          #finding the first one which is larger than the one after
 
-        return -1
+        return start
