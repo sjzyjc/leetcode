@@ -11,3 +11,6 @@ class Solution:
                 return [indexMap[target - nums[i]], i]
 
             indexMap[nums[i]] = i
+
+sl = Solution()
+print(sl.twoSum([5],10))
