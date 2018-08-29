@@ -47,9 +47,5 @@ class Solution:
 
         return " ".join(word_list)     
 
-
-    
-
-
 sl = Solution()
 print(sl.replaceWords(["rat","cat"], "the rattle is cattle"))
