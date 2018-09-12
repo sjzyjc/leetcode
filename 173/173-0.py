@@ -24,12 +24,19 @@ class BSTIterator(object):
         
 
     def next(self):
-        node = self.stack.pop()
-        x = node.right
-        while x:
-            self.stack.append(x)
-            x = x.left
-        return node.val
+        cur = self.stack[-1]
+        node = cur
+        if node.right is not None:
+            node = node.right
+            while node is not None:
+                self.stack.append(node)
+                node = node.left
+        else:
+            node = self.stack.pop()
+            while self.stack and self.stack[-1].right == node:
+                node = self.stack.pop()
+        
+        return cur.val
         
 
 # Your BSTIterator will be called like this:
