@@ -4,6 +4,7 @@ class Solution:
         :type nums: List[int]
         :type target: int
         :rtype: List[int]
+        O(N) 
         """
         indexMap = {}
         for i in range(len(nums)):

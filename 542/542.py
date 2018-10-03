@@ -4,6 +4,7 @@ class Solution:
         """
         :type matrix: List[List[int]]
         :rtype: List[List[int]]
+        T: N^2logN worst N^4
         """
         if not matrix or not matrix[0] or len(matrix) == 0 or len(matrix[0]) == 0:
             return [[]]

@@ -4,6 +4,7 @@ class Solution:
         :type nums1: List[int]
         :type nums2: List[int]
         :rtype: List[int]
+        NlogN where N = max(N, M)
         """
         if not nums1 or not nums2:
             return []

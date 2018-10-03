@@ -16,6 +16,7 @@ class Solution:
         :type employees: Employee
         :type id: int
         :rtype: int
+        O N = no. of all sub ordinates
         """
         if not employees:
             return 0

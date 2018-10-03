@@ -1,4 +1,5 @@
 from collections import deque
+import math
 class Solution:
     def numSquares(self, n):
         """
@@ -14,12 +15,13 @@ class Solution:
             
             for i in range(length):
                 remain = queue.popleft()
-                sqrt = int(remain ** (1/2))
+                
+                sqrt = int(math.sqrt(remain))
 
                 for i in range(sqrt, 0, -1):
-                    if remain - (i ** 2) == 0:
+                    if remain - (i * i) == 0:
                         return level + 1
-                    queue.append(remain - (i**2))
+                    queue.append(remain - (i * i))
         
         return -1
                 

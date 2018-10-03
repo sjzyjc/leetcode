@@ -11,6 +11,7 @@ class Solution(object):
         :type root: TreeNode
         :type k: int
         :rtype: int
+        T: k + h
         """
         self.counter = 0
         self.kth = None

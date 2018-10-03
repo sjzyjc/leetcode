@@ -25,9 +25,9 @@ class Solution:
                 continue
             
             if level > len(ret) - 1:
-                ret.append([node.val])
-            else:
-                ret[level].append(node.val)
+                ret.append([])
+            
+            ret[level].append(node.val)
 
             queue.append((node.left, level + 1))
             queue.append((node.right, level + 1))

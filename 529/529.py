@@ -17,8 +17,6 @@ class Solution(object):
             return board
         
         queue = deque([(click[0], click[1])])
-        child_queue = deque()
-
         
         while queue:
             x, y = queue.popleft()
@@ -26,16 +24,12 @@ class Solution(object):
                 continue
                 
             offsets = [[1, 0], [1, -1], [1, 1], [-1, -1], [-1, 0], [-1, 1], [0, 1], [0, -1]]
-            for offset in offsets:
-                child_queue.append((x + offset[0], y + offset[1]))
-            
             count = 0
-            while child_queue:
-                x1, y1 = child_queue.popleft()
-                if not (0 <= x1 < len(board) and 0 <= y1 < len(board[x])):
+            for offset in offsets:
+                if not (0 <= x + offset[0] < len(board) and 0 <= y + offset[1] < len(board[x])):
                     continue
-            
-                if board[x1][y1] == 'M':
+    
+                if board[x + offset[0]] [y + offset[1]] == 'M':
                     count += 1
                           
             if count == 0:

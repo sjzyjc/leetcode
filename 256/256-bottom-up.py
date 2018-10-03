@@ -7,7 +7,7 @@ class Solution:
         if not costs or not costs[0]:
             return 0
         
-        min_cost = [[(1 << 31) - 1for i in range(3)] for j in range(len(costs) + 1)]
+        min_cost = [[(1 << 31) - 1 for i in range(3)] for j in range(len(costs) + 1)]
         min_cost[0][0] = 0
         min_cost[0][1] = 0
         min_cost[0][1] = 0

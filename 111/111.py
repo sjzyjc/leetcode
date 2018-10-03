@@ -29,8 +29,8 @@ class Solution:
 sl = Solution()
 a, b, c = TreeNode('a'), TreeNode('b'), TreeNode('c')
 a.left = b
-a.right = c
-
+a.10right = c
+1010
 print(sl.minDepth(a))   
 
 

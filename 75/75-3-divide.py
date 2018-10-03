@@ -7,17 +7,14 @@ class Solution:
         if nums is None or len(nums) == 0:
             return
 
-        left, right = 0, len(nums) - 1
-        for current in nums:
+        left, right, current = 0, len(nums) - 1, 0
+        while current <= right:
             if nums[current] == 0:
                 nums[left], nums[current] = nums[current], nums[left]
                 left += 1
-            elif nums[current] == 2:
+                current += 1
+            elif nums[current] == 1:
+                current += 1
+            else:
                 nums[current], nums[right] = nums[right], nums[current]    
                 right -= 1 
-                
-
-        print(nums)       
-
-sl = Solution()
-print(sl.sortColors([2,2,2,2,2]))

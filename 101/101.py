@@ -15,30 +15,19 @@ class Solution:
         if not root:
             return True
         
-        queue = deque()
-        queue.append((root, 0))
-        level_map = {}
+        return self.check(root.left, root.right)
 
-        while queue:
-            node, depth = queue.popleft()
-
-            if not node:
-                continue
-
-            if depth not in level_map:
-                level_map[depth] = [node.val]
-            else:
-                level_map[depth].append(node.val)    
-            
-            queue.append((node.left, depth+1))
-            queue.append((node.right, depth+1))
-
+    def check(self, left, right):
+        if left is None or right is None:
+            return left is None and right is None
         
-        for i in level_map:
-            if level_map[i] != level_map[i][::-1]:
-                return False
+        if left.val != right.val:
+            return False
 
-        return True        
+        return self.check(left.left, right.right) and self.check(left.right, right.left)
+
+
+
 sl = Solution()
 a, b, c = TreeNode('a'), TreeNode('b'), TreeNode('b')
 a.left = b

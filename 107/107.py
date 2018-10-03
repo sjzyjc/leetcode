@@ -7,7 +7,7 @@
 
 from collections import deque
 class Solution:
-    def levelOrder(self, root):
+    def levelOrderBottom(self, root):
         """
         :type root: TreeNode
         :rtype: List[List[int]]

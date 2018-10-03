@@ -8,44 +8,32 @@ class Solution(object):
         """
         if not matrix or not matrix[0]:
             return 0
+        
+        array = []
+        for row in matrix:
+            array.extend(row)
             
-        self.quickSelect(matrix, k-1, 0, len(matrix) * len(matrix[0]) - 1)
-        return matrix[(k-1) // len(matrix[0])][(k-1) % len(matrix[0])]
+        self.quickSelect(array, k-1, 0, len(array) - 1)
+        return array[k-1]
     
     def quickSelect(self, array, index, start, end):
         if start >= end:
             return
         
-        pivot_x = ((start + end) // 2) // len(array[0])
-        pivot_y = ((start + end) // 2) % len(array[0])
-
         left, right = start, end
-        pivot = array[pivot_x][pivot_y]
-        left_x = left // len(array[0])
-        left_y = left % len(array[0])
-        right_x = right // len(array[0])
-        right_y = right % len(array[0])
+        pivot = array[(start + end) // 2]
+
         while left <= right:
-            
-            while left <= right and array[left_x][left_y] < pivot:
+            while left <= right and array[left] < pivot:
                 left += 1
-                left_x = left // len(array[0])
-                left_y = left % len(array[0])
-            
-            while left <= right and array[right_x][right_y] > pivot:
-                right -= 1
-                right_x = right // len(array[0])
-                right_y = right % len(array[0])
                 
+            while left <= right and array[right] > pivot:
+                right -= 1
             
             if left <= right:
-                array[left_x][left_y], array[right_x][right_y] = array[right_x][right_y], array[left_x][left_y]
+                array[left], array[right] = array[right], array[left]
                 left += 1
                 right -= 1
-                left_x = left // len(array[0])
-                left_y = left % len(array[0])
-                right_x = right // len(array[0])
-                right_y = right % len(array[0])
         
         if index <= right:
             self.quickSelect(array, index, start, right)

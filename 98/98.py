@@ -12,8 +12,8 @@ class Solution(object):
         :rtype: bool
         """
         self.prev = None
-        self.isValid = True
-        self.cmpVal(root)
+        self.isValid = 
+        self.cmpVal(root)True
         return self.isValid
     
     def cmpVal(self, node):

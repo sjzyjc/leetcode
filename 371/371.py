@@ -1,5 +1,5 @@
 class Solution:
-    #not valid for python
+    #not valid for python, since python auto handled overflow
     def getSum(self, a, b):
         carry_bit = 0
         ret = 0

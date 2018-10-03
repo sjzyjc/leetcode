@@ -11,7 +11,7 @@ class Solution:
         :rtype: bool
         """
         if not head:
-            return True
+            return  True
         
         slow, fast = head, head.next
         while fast and fast.next:

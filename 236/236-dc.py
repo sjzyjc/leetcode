@@ -14,7 +14,7 @@ class Solution(object):
         :rtype: TreeNode
         """
         if not root:
-            return False
+            return None
         
         return self.helper(root, p, q)[2]
         
@@ -39,9 +39,6 @@ class Solution(object):
             return True, True, root
         
         return has_p, has_q, None
-        
-        
-        
         
         
         

@@ -5,12 +5,11 @@ class Solution:
         :type word: str
         :rtype: bool
         """
-        if not board or not board[0] or len(board) == 0 or len(board[0]) == 0:
+        if not board or not board[0]:
             return False
 
-        height, width = len(board), len(board[0])
-        for i in range(height):
-            for j in range(width):
+        for i in range(len(board)):
+            for j in range(board[i]):
                 if self.find(board, i, j, 0, word):
                     return True
 
