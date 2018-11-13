@@ -27,7 +27,6 @@ class Solution:
                 left += 1
                 right -= 1
         
-        print(pivot, nums)
         self.quickSort(nums, start, right, start_color, pivot)
         self.quickSort(nums, left, end, pivot + 1, end_color)        
 

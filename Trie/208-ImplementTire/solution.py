@@ -10,7 +10,7 @@ class Trie:
         tmp = self.trie
 
         for char in word:
-            if char not in parent:
+            if char not in tmp:
                 tmp[char] = {}
 
             tmp = tmp[char]
