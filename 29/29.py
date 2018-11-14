@@ -9,18 +9,24 @@ class Solution:
             return 0
 
         minus = False
-        if (dividend < 0 and divisor > 0) or (divident > 0 and divisor < 0):
-            dividend =  abs(dividend)
-            divisor = abs(divisor)
+        if (dividend < 0 and divisor > 0) or (dividend > 0 and divisor < 0):
             minus = True
-
-        remain = dividend
+        
+        dividend = abs(dividend)
+        divisor = abs(divisor)
+        
         ret = 0
-        while remain > divisor
-            remain -= divisor
-            ret += 1
-
+        for shift in range(31, -1, -1):
+            if divisor << shift > dividend:
+                continue
+               
+            dividend -= divisor << shift
+            ret += (1 << shift)  
+            
         if minus:
-            return -ret
-        else:
-            return ret
+            ret = -ret
+        
+        if ret > (1 << 31) - 1 or ret < - (1 << 31):
+            return (1 << 31) - 1
+        
+        return ret
