@@ -1,17 +1,21 @@
-class Solution(object):
+class Solution:
+    """
+    @param nums1: an integer array
+    @param nums2: an integer array
+    @return: an integer array
+    O(M + N)
+    O(min(M, N))
+    
+    """
     def intersection(self, nums1, nums2):
-        """
-        :type nums1: List[int]
-        :type nums2: List[int]
-        :rtype: List[int]
-        T: n S: n
-        """
-        nums1Set = set(nums1)
-        nums2Set = set(nums2) 
-
-        ret = []
-        for num in nums1Set:
-            if num in nums2Set:
-                ret.append(num)
-
-        return ret         
+        # write your code here
+        if not nums1 or not nums2:
+            return []
+        
+        nums2 = set(nums2)   
+        ans = set()
+        for num in nums1:
+            if num in nums2:
+                ans.add(num)
+                
+        return list(ans)
