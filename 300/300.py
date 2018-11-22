@@ -7,16 +7,18 @@ class Solution:
         if not nums:
             return 0
         
-        length = [0 for i in range(len(nums))]
-        length[-1] = 1
-        ans = 0
+        f = [1 for i in range(len(nums))]
+        maximum = - (1 << 31)
         
-        for i in range(len(nums) - 2, -1, -1):
-            maxium_follow = 0
-            for j in range(i + 1, len(nums)):
-                if nums[i] < nums[j]:
-                    maxium_follow = max(maxium_follow, length[j])
-            length[i] = maxium_follow + 1
+        for i in range(len(nums)):
+            for j in range(i):
+                if nums[j] >= nums[i]:
+                    continue
+                    
+                f[i] = max(f[i], f[j] + 1)
+                
+            maximum = max(f[i], maximum)
+                
+        return maximum
             
-        return max(length)
-            
+        
