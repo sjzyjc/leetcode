@@ -7,38 +7,36 @@ class Solution:
         if not costs or not costs[0]:
             return 0
         
-        prev_first_min, prev_second_min = (1 << 31) - 1, (1 << 31) - 1
-        prev_min_color = -1
+        k = len(costs[0])
+        n = len(costs)
         
-        for i in range(len(costs[0])):
-            cur_val = costs[0][i]
-            if cur_val < prev_first_min:
-                prev_first_min, prev_second_min = cur_val, prev_first_min
-                prev_min_color = i
-            elif cur_val < prev_second_min:
-                prev_second_min = cur_val
-                
-        for i in range(1, len(costs)):
-            cur_first_min, cur_second_min = (1 << 31) - 1, (1 << 31) - 1
-            cur_min_color = -1
-            for color in range(len(costs[0])):
-                cur_val = costs[i][color]
-                if color == prev_min_color:
-                    cur_val += prev_second_min
+        pre_first_min, pre_second_min = 0, 0
+        pre_min_color = -1
+        
+        for i in range(n):
+            #house i will be painted to k
+            first_min = second_min = (1 << 31) - 1
+            min_color = -1
+            for j in range(k):
+                cost = 0
+                if j == pre_min_color:
+                    cost = pre_second_min + costs[i][j]
                 else:
-                    cur_val += prev_first_min
+                    cost = pre_first_min + costs[i][j]
                 
-                if cur_val < cur_first_min:
-                    cur_first_min, cur_second_min = cur_val, cur_first_min
-                    cur_min_color = color
-                elif cur_val < cur_second_min:
-                    cur_second_min = cur_val
-                    
-            prev_min_color = cur_min_color
-            prev_first_min = cur_first_min
-            prev_second_min = cur_second_min
-            
-        return prev_first_min
-                
-                
+                if cost <= first_min:
+                    second_min = first_min
+                    first_min = cost
+                    min_color = j
+                elif cost < second_min:
+                    second_min = cost
+                                        
+            pre_first_min = first_min
+            pre_second_min = second_min
+            pre_min_color = min_color
         
+        return first_min
+                
+                
+                
+                

@@ -16,7 +16,6 @@ class Solution:
         
         match = [[-1 for i in range(len(p))] for j in range(len(s))]
         self.helper(s, p, 0, 0, match)
-        print(match)
         return match[0][0]
     
     def helper(self, s, p, s_index, p_index, match):

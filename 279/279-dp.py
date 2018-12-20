@@ -4,6 +4,7 @@ class Solution(object):
         """
         :type n: int
         :rtype: int
+        n(sqrt (n))
         """
         if n < 0:
             return -1

@@ -1,95 +1,89 @@
-class DoubleNode:
+class Node:
     def __init__(self, key, val):
-        self.prev = None
-        self.next = None
-        self.val = val
         self.key = key
-        
-class LRUCache:
+        self.val = val
+        self.next = None
+        self.prev = None
 
+class LRUCache:
+    """
+    @param: capacity: An integer
+    """
     def __init__(self, capacity):
-        """
-        :type capacity: int
-        """
-        head = DoubleNode("^", "^")
-        tail = DoubleNode("$", "$")
-        head.next = tail
-        tail.prev = head
-        
-        self.head = head
-        self.tail = tail
+        # do intialization if necessary
         self.map = {}
         self.cap = capacity
         
-
+        self.head = Node("^", "^")
+        self.tail = Node("#", "#")
+        
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        
+    """
+    @param: key: An integer
+    @return: An integer
+    """
     def get(self, key):
-        """
-        :type key: int
-        :rtype: int
-        """
+        # write your code here
         if key not in self.map:
             return -1
-        
-        
+            
         node = self.map[key]
-        prev = node.prev
-        next = node.next
-        
-        prev.next = next
-        next.prev = prev
-        
-        first = self.head.next
-        self.head.next = node
-        node.prev = self.head
-        first.prev = node
-        node.next = first
+        self.update(node)
         
         return node.val
-        
-
+    """
+    @param: key: An integer
+    @param: value: An integer
+    @return: nothing
+    """
     def put(self, key, value):
-        """
-        :type key: int
-        :type value: int
-        :rtype: void
-        """
-        node = None
+        # write your code here
+        
         if key in self.map:
             node = self.map[key]
             node.val = value
             
-            node_prev = node.prev
-            node_next = node.next
-            node_prev.next = node_next
-            node_next.prev = node_prev
-            
-            first = self.head.next
-            self.head.next = node
-            node.prev = self.head
-            node.next = first
-            first.prev = node            
+            self.update(node)
         else:
-            node = DoubleNode(key, value)
-            first = self.head.next
-
+            node = Node(key, value)
+            first_node = self.head.next
+            
             self.head.next = node
-            node.next = first
-        
-            first.prev = node
             node.prev = self.head
+            
+            node.next = first_node
+            first_node.prev = node
+            
             self.map[key] = node
+                    
         
-
         if len(self.map) > self.cap:
-            least = self.tail.prev
-            prev = least.prev
-            self.tail.prev = prev
-            prev.next = self.tail
-            del self.map[least.key]
+            to_drop = self.tail.prev
+            
+            self.tail.prev = to_drop.prev
+            to_drop.prev.next = self.tail
+            
+            del self.map[to_drop.key]
             
 
+            
+            
+    def update(self, node):
+        prev_node = node.prev
+        next_node = node.next
+        
+        prev_node.next = next_node
+        next_node.prev = prev_node
 
-# Your LRUCache object will be instantiated and called as such:
-# obj = LRUCache(capacity)
-# param_1 = obj.get(key)
-# obj.put(key,value)
+        first_node = self.head.next
+        node.next = first_node
+        first_node.prev = node
+        
+        self.head.next = node
+        node.prev = self.head
+
+        
+        
+

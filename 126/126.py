@@ -1,64 +1,66 @@
-from collections import deque
-
+from collections import defaultdict, deque
 class Solution:
-    """
-    @param: start: a string
-    @param: end: a string
-    @param: dict: a set of string
-    @return: a list of lists of string
-    """
-    def findLadders(self, start, end, dict):
-        if end not in dict:
+    def findLadders(self, beginWord, endWord, wordList):
+        """
+        :type beginWord: str
+        :type endWord: str
+        :type wordList: List[str]
+        :rtype: List[List[str]]
+        """
+        if not wordList or endWord not in wordList:
             return []
         
-        dict.append(start)
-        indexes = self.build_indexes(dict)
+        wordList.append(beginWord)
+        indexes = defaultdict(list)
+        self.buildIndexes(wordList, indexes)
         
-        distance = {}
-        self.bfs(start, end, distance, indexes)
+        distances = {}
+        self.bfs(endWord, distances, wordList, indexes)
         
-        results = []
-        self.dfs(start, end, distance, indexes, [start], results)
+        if beginWord not in distances:
+            return []
         
-        return results
+        ans = []
+        self.dfs(beginWord, endWord, distances, wordList, indexes, [beginWord], ans)
+        return ans
+    
+    def buildIndexes(self, wordList, indexes):
+        for word in wordList:
+            for index, char in enumerate(word):
+                indexes[word[:index] + '%' + word[index + 1:]].append(word)
+    
+    def findNextWords(self, word, wordList, indexes):
+        ans = []
+        for index, char in enumerate(word):
+            ans.extend(indexes.get(word[:index] + '%' + word[index + 1:], []))
         
-    def build_indexes(self, dict):
-        indexes = {}
-        for word in dict:
-            for i in range(len(word)):
-                key = word[:i] + '%' + word[i + 1:]
-                if key in indexes:
-                    indexes[key].add(word)
-                else:
-                    indexes[key] = set([word])
-        return indexes
-
-    def bfs(self, start, end, distance, indexes):
-        distance[start] = 0
-        queue = deque([start])
+        return ans
+    
+    def bfs(self, end, distances, wordList, indexes):
+        queue = deque([end])
+        distances[end] = 0
+        
         while queue:
             word = queue.popleft()
-            for next_word in self.get_next_words(word, indexes):
-                if next_word not in distance:
-                    distance[next_word] = distance[word] + 1
+
+            for next_word in self.findNextWords(word, wordList, indexes):
+                if next_word not in distances:
+                    distances[next_word] = distances[word] + 1
                     queue.append(next_word)
     
-    def get_next_words(self, word, indexes):
-        words = []
-        for i in range(len(word)):
-            key = word[:i] + '%' + word[i + 1:]
-            for w in indexes.get(key, []):
-                words.append(w)
-        return words
-                        
-    def dfs(self, curt, target, distance, indexes, path, results):
-        if curt == target:
-            results.append(list(path))
+    def dfs(self, current, end, distances, wordList, indexes, path, ans):
+        if current == end:
+            ans.append(path + [])
             return
         
-        for word in self.get_next_words(curt, indexes):
-            if distance[word] != distance[curt] + 1:
+        for next_word in self.findNextWords(current, wordList, indexes):
+            if distances[next_word] != distances[current] - 1:
                 continue
-            path.append(word)
-            self.dfs(word, target, distance, indexes, path, results)
+            
+            path.append(next_word)
+            self.dfs(next_word, end, distances, wordList, indexes, path, ans)
             path.pop()
+            
+                
+            
+            

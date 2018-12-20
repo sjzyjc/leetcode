@@ -2,7 +2,7 @@ class Solution:
     """
     @param: envelopes: a number of envelopes with widths and heights
     @return: the maximum number of envelopes
-    n^2
+    O(n^2)
     """
     def maxEnvelopes(self, envelopes):
         # write your code here

@@ -23,7 +23,7 @@ class Solution(object):
                 hashset.remove(s[left])
                 left += 1
                 
-            print(left, right)
+            #print(left, right)
                         
         return ans
                 

@@ -3,6 +3,8 @@ class Solution:
         """
         :type s: str
         :rtype: int
+        n^2
+        n^2
         """
         if not s:
             return 0
