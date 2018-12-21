@@ -3,6 +3,7 @@ class Solution:
         """
         :type board: List[List[str]]
         :rtype: void Do not return anything, modify board in-place instead.
+        O(N^2)
         """
         if not board or not board[0]:
             return

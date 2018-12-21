@@ -5,38 +5,39 @@ class Solution:
         :type str: str
         :rtype: bool
         """
-        if pattern is None or str is None:
+        if not pattern and not str:
+            return True
+        
+        if not pattern or not str:
             return False
         
         return self.helper(pattern, str, 0, 0, {})
     
-    def helper(self, pattern, str, p_index, s_index, cur_dict):
-        if p_index == len(pattern) and s_index == len(str):
+    def helper(self, pattern, word, p_index, s_index, word_map):
+        if p_index == len(pattern) and s_index == len(word):
             return True
         
-        if p_index == len(pattern) or s_index == len(str):
+        if p_index == len(pattern) or s_index == len(word):
             return False
         
-        p = pattern[p_index] + "$"
-        if p not in cur_dict:
-            for i in range(s_index, len(str)):
-                word = str[s_index: i + 1]
-                if word in cur_dict:
+        p = pattern[p_index] + '$'
+        if p not in word_map:
+            for i in range(s_index, len(word)):
+                sub_word = word[s_index: i + 1]
+                if sub_word in word_map:
                     continue
-                
-                cur_dict[p] = word
-                cur_dict[word] = cur_dict[p]
-                if self.helper(pattern, str, p_index + 1, i + 1, cur_dict):
+                    
+                word_map[p] = sub_word
+                word_map[sub_word] = p
+                if self.helper(pattern, word, p_index + 1, i + 1, word_map):
                     return True
-                del cur_dict[p]
-                del cur_dict[word]
-        else:
-            if not str[s_index :].startswith(cur_dict[p]):
-                return False
-            
-            if self.helper(pattern, str, p_index + 1, s_index + len(cur_dict[p]), cur_dict):
-                return True
-        
-        return False
                 
-    
+                del word_map[p]
+                del word_map[sub_word]
+        else:
+            if word[s_index :].startswith(word_map[p]) and self.helper(pattern, word, p_index + 1, s_index + len(word_map[p]), word_map):
+                return True
+            
+        return False
+        
+        

@@ -2,7 +2,7 @@ class UnionFind:
     def __init__(self, n):
         self.parents = [i for i in range(n)]
         self.sizes = [1 for _ in range(n)]
-    
+        
     def find(self, i, j):
         return self.root(i) == self.root(j)
     
@@ -23,23 +23,27 @@ class UnionFind:
             i = self.parents[i]
             
         return i
-                
-class Solution:
-    def findRedundantConnection(self, edges):
-        """
-        :type edges: List[List[int]]
-        :rtype: List[int]
-        """
-        if not edges:
-            return []
     
-        uf = UnionFind(len(edges))
-        for v1, v2 in edges:
-            if uf.find(v1 - 1, v2 - 1):
-                return v1, v2
-            uf.union(v1 - 1, v2 - 1)
-            
-        return []
-            
+class Solution:
+    def validTree(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: bool
+        """
+        if not edges and n > 1:
+            return False
         
+        uf = UnionFind(n)
+        for v1, v2 in edges:
+            if uf.find(v1, v2):
+                return False
+            
+            uf.union(v1, v2)
+        
+        root_set = set()
+        for v in range(n):
+            root_set.add(uf.root(v))
+            
+        return len(root_set) == 1
         

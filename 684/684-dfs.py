@@ -4,6 +4,7 @@ class Solution:
         """
         :type edges: List[List[int]]
         :rtype: List[int]
+        O(N^2)
         """
         if not edges:
             return []
