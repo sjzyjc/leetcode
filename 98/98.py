@@ -12,20 +12,22 @@ class Solution(object):
         :rtype: bool
         """
         self.prev = None
-        self.isValid = 
-        self.cmpVal(root)True
-        return self.isValid
+        return self.cmpVal(root)
     
     def cmpVal(self, node):
         if not node:
-            return
+            return True
         
         left_is_BST = self.cmpVal(node.left)
+        if left_is_BST is False:
+            return False
+        
         if self.prev != None and node.val <= self.prev:
-            self.isValid = False 
+            return False 
         
         self.prev = node.val
-        right_is_BST = self.cmpVal(node.right)
+        return self.cmpVal(node.right)
+        
         
         
         
