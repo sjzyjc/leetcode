@@ -1,8 +1,10 @@
-DIRECTION = [(1, 0), (-1, 0), (0, -1), (0, 1)]
+OFFSETS = [[0, 1], [0, -1], [1, 0], [-1, 0]]
 class Trie:
     def __init__(self):
         self.trie = {}
         
+    def getTrie(self):
+        return self.trie
     
     def insert(self, word):
         tmp = self.trie
@@ -13,66 +15,58 @@ class Trie:
             tmp = tmp[char]
             
         tmp['#'] = True
-    
-    def isPrefix(self, prefix):
+        
+    def isPrefix(self, target):
         tmp = self.trie
-        for char in prefix:
+        for char in target:
             if char not in tmp:
                 return False
+            
             tmp = tmp[char]
             
         return True
+    
+    def isWord(self, target):
+        self.isPrefix(self, target + '#')
+                
         
-    def isWord(self, word):
-        return self.isPrefix(word + "#")
-
-
 class Solution:
-    """
-    @param board: A list of lists of character
-    @param words: A list of string
-    @return: A list of string
-    """
     def findWords(self, board, words):
-        # write your code here
+        """
+        :type board: List[List[str]]
+        :type words: List[str]
+        :rtype: List[str]
+        """
         if not board or not board[0] or not words:
             return []
         
-        self.trie = Trie()
+        trie = Trie()
         for word in words:
-            self.trie.insert(word)
-        
+            trie.insert(word)
+         
         ans = []
-        visited = [[False for j in range(len(board[0]))] for i in range(len(board))]
         for i in range(len(board)):
             for j in range(len(board[i])):
-                visited[i][j] = True
-                self.dfs(board, i, j, board[i][j], visited, ans)
-                visited[i][j] = False
+                self.search(board, i, j, trie.getTrie(), ans, [])
                 
         return list(set(ans))
+    
+    def search(self, board, i, j, trie, ans, carry):            
+        if not (0 <= i < len(board) and 0 <= j < len(board[0])) or board[i][j] not in trie:
+            return
         
-    def dfs(self, board, i, j, carry, visited, ans):
-        if self.trie.isWord(carry):
-            ans.append(carry)
-          
-        for offset in DIRECTION:
-            new_i = i + offset[0]
-            new_j = j + offset[1]
-            if not (0<= new_i < len(board) and 0 <= new_j < len(board[0])):
-                continue
-
-            if visited[new_i][new_j]:
-                continue
+        orig_char = board[i][j]
+        board[i][j] = 0
+        carry.append(orig_char)
+        tmp = trie[orig_char]
+        if '#' in tmp:
+            ans.append("".join(carry))
+        
+        for offset in OFFSETS:
+            self.search(board, i + offset[0], j + offset[1], tmp, ans, carry)
             
-            sub = carry + board[new_i][new_j]
-            if not self.trie.isPrefix(sub):
-                continue
-            
-            visited[new_i][new_j] = True
-            self.dfs(board, new_i, new_j, sub, visited, ans)
-            visited[new_i][new_j] = False
+        board[i][j] = orig_char
+        carry.pop()
             
                 
-                
-                
+        
