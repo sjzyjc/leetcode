@@ -1,5 +1,12 @@
 class Solution(object):
     def kthSmallest(self, matrix, k):
+        """
+        :type matrix: List[List[int]]
+        :type k: int
+        :rtype: int
+        T: MN * log(max - min) //at most 32
+        """
+
         lo, hi = matrix[0][0], matrix[-1][-1]
         while lo<hi:
             mid = (lo + hi)//2
