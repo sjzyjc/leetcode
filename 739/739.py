@@ -1,20 +1,17 @@
-class Solution(object):
-    def dailyTemperatures(self, tmps):
-        """
-        :type temperatures: List[int]
-        :rtype: List[int]
-        """
-        if not tmps:
+class Solution:
+    def dailyTemperatures(self, T: List[int]) -> List[int]:
+        if not T:
             return []
         
         stack = []
-        ans = [0 for i in range(len(tmps))]
-        for index, tmp in enumerate(tmps):
-            while stack and tmp > stack[-1][0]:
-                t, i = stack.pop()
-                ans[i] = index - i
-            
-            stack.append([tmp, index])
-        
-        return ans
+        ans = [0 for _ in range(len(T))]
+        for index in range(len(T)):
+            val = T[index] 
+            while stack and T[stack[-1]] < val:
+                j = stack.pop()
+                ans[j] = index - j
                 
+            stack.append(index)
+            
+        return ans
+        

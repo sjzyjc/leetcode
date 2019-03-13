@@ -1,76 +1,58 @@
 import heapq
 class Solution:
-    def getSkyline(self, buildings):
-        """
-        :type buildings: List[List[int]]
-        :rtype: List[List[int]]
-        """
-        if not buildings:
+    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:
+        if not buildings or not buildings[0]:
             return []
         
         arr = []
-        hash_map = {}
         for b in buildings:
-            #point, height, is_left
-            arr.append((b[0], b[2], 1))
-            arr.append((b[1], b[2], 0))
-            hash_map[(b[1], b[2])] = b[0]
+            arr.append([b[0], 0, b[2]])
+            arr.append([b[1], 1, b[2]])
             
         arr.sort()
         heap = []
         ans = []
-        
+        #print(arr)
         for i in arr:
-            #print(heap)
-            point = i[0]
+            x = i[0]
+            h = i[2]
+            is_left = (i[1] == 0)
+            
+            if is_left:
+                if not heap or -heap[0] < h:
+                    ans.append([x, h, True])
+                
+                heapq.heappush(heap, -h)
+            else:
+                heap.remove(-h)
+                if heap:
+                    heapq.heapify(heap)
+                
+                if not heap:
+                    ans.append([x, 0, False])
+                elif -heap[0] < h: 
+                    ans.append([x, -heap[0], False]) 
+        
+        ret = []
+        last_x = last_h = None
+        for i in ans:
+            x = i[0]
             h = i[1]
             is_left = i[2]
-            if not heap:
-                ans.append([point, h, is_left])
-                heapq.heappush(heap, (-h, point))
-                
+            
+            if last_x is None:
+                last_x = x
+                last_h = h
+            elif x == last_x:
+                if is_left:
+                    last_h = max(last_h, h)
+                else:
+                    last_h = min(last_h, h)
             else:
-                if is_left == 1:
-                    if -heap[0][0] < h:
-                        ans.append([point, h, 1])
-                    
-                    heapq.heappush(heap, (-h, point))
-                    
-                else:
-                    left_point = hash_map[(point, h)]
-                    heap.remove((-h, left_point))
-                    if not heap:
-                        ans.append([point, 0, 0])
-                    else:
-                        heapq.heapify(heap)
-                        if -heap[0][0] < h:
-                            ans.append([point, -heap[0][0], 0])
-                            
-            ret = []
-            cur_p = ans[0][0]
-            cur_ans = ans[0][1]
-            for index in range(len(ans)):
-                p, h, is_left = ans[index][0], ans[index][1], ans[index][2] == 1
-                if p == cur_p:
-                    if is_left:
-                        cur_ans = max(cur_ans, h)
-                    else:
-                        cur_ans = min(cur_ans, h)
-                        
-                else:
-                    if ret and cur_ans == ret[-1][1] :
-                        cur_p = p
-                        cur_ans = h
-                        continue
-                        
-                    ret.append([cur_p, cur_ans])
-                    cur_p = p
-                    cur_ans = h
-                        
-                    
-        ret.append([cur_p, cur_ans])               
+                ret.append([last_x, last_h])
+                last_x = x
+                last_h = h
+                
+        ret.append([last_x, last_h])
         return ret
                         
-                        
-            
-            
