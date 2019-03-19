@@ -1,36 +1,25 @@
 class Solution:
-    def isBipartite(self, graph):
-        """
-        :type graph: List[List[int]]
-        :rtype: bool
-        """
+    def isBipartite(self, graph: List[List[int]]) -> bool:
         if not graph:
-            return False
+            return True
         
-        #assume color 0 and 1
         colored = {}
-        
-        for node in range(len(graph)):
-            if node in colored:
+        for i in range(len(graph)):
+            if i in colored:
                 continue
-            
-            if not self.canColor(graph, node, colored, 0):
+                
+            if self.cannotColor(graph, i, 0, colored):
                 return False
             
         return True
     
-    def canColor(self, graph, cur, colored, color):
-        if cur in colored:
-            if color == colored[cur]:
+    def cannotColor(self, graph, node, to_color, colored):
+        if node in colored:
+            return colored[node] != to_color
+        
+        colored[node] = to_color
+        for nei in graph[node]:
+            if self.cannotColor(graph, nei, 1 - to_color, colored):
                 return True
-            else: 
-                return False
             
-        colored[cur] = color
-        for nei in graph[cur]:
-            if not self.canColor(graph, nei, colored, 1 - color):
-                return False
-        
-        return True
-            
-        
+        return False
