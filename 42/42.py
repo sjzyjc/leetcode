@@ -7,22 +7,21 @@ class Solution(object):
         if not height:
             return 0
         
-        left, right = 0, len(height) - 1
-        left_max, right_max = 0, 0
-        water = 0
+        left = 1
+        right = len(height) - 2
+        
+        left_max = height[0]
+        right_max = height[-1]
+        
+        ans = 0
         while left <= right:
-            if height[left] < height[right]:
-                if height[left] > left_max:
-                    left_max = height[left]
-                else:
-                    water += left_max - height[left]
-                    
+            if left_max < right_max:
+                ans += max(0, left_max - height[left])
+                left_max = max(left_max, height[left])
                 left += 1
             else:
-                if height[right] > right_max:
-                    right_max = height[right]
-                else:
-                    water += right_max - height[right]
+                ans += max(0, right_max - height[right])
+                right_max = max(right_max, height[right])
                 right -= 1
                 
-        return water
+        return ans
