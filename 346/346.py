@@ -1,33 +1,19 @@
 from collections import deque
-class MovingAverage(object):
+class MovingAverage:
 
-    def __init__(self, size):
+    def __init__(self, size: int):
         """
         Initialize your data structure here.
-        :type size: int
         """
         self.size = size
         self.sum = 0
-        self.queue = deque()
+        self.arr = deque([])
         
 
-    def next(self, val):
-        """
-        :type val: int
-        :rtype: float
-        """
-        self.queue.append(val)
+    def next(self, val: int) -> float:
         self.sum += val
-
-        if len(self.queue) > self.size:
-            first_val = self.queue.popleft()
-            self.sum -= first_val
-        
-        
-        return float(self.sum) / len(self.queue)
-        
-
-
-# Your MovingAverage object will be instantiated and called as such:
-# obj = MovingAverage(size)
-# param_1 = obj.next(val)
+        self.arr.append(val)
+        if len(self.arr) > self.size:
+            self.sum -= self.arr.popleft()
+            
+        return self.sum / len(self.arr)

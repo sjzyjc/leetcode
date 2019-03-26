@@ -1,3 +1,4 @@
+from collections import defaultdict
 class Solution:
     def solveSudoku(self, board):
         """
@@ -7,89 +8,51 @@ class Solution:
         if not board or not board[0]:
             return None
         
+        used = defaultdict(set)
+        for i in range(len(board)):
+            for j in range(len(board[i])):
+                if board[i][j] != '.':
+                    self.add(i, j, board[i][j], used)
+
         #i, j is to be filled
-        self.helper(board, 0)
+        self.helper(board, 0, used)
+        
+        
+    def add(self, i, j, value, used):
+        #0-8 for rows
+        used[i].add(value)
+        #9 - 17 for cols
+        used[9 + j].add(value)
+        #18 - 26 for sqaures
+        used[18 + i // 3 * 3 + j // 3].add(value)
+        
+    def remove(self, i, j, value, used):
+        used[i].remove(value)
+        used[9 + j].remove(value)          
+        used[18 + i // 3 * 3 + j // 3].remove(value)
         
     
-    def helper(self, board, pos):
+    def helper(self, board, pos, used):
         if pos >= 81:
             return True
         
         i = pos // 9
         j = pos % 9
         if board[i][j] != '.':
-            return self.helper(board, pos + 1)
+            return self.helper(board, pos + 1, used)
         else:
-            for num in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+            for num in range(1, 10):
+                num = str(num)
+                if num in used[i] or num in used[9 + j] or num in used[18 + i // 3 * 3 + j //3]:
+                    continue
+                    
                 board[i][j] = num
-                if self.validate(board, i, i, 0, 8) and self.validate(board, 0, 8, j, j) and self.validate(board, i // 3 * 3, i // 3 * 3 + 2, j // 3 * 3, j // 3 * 3 + 2):
-                    res = self.helper(board, pos + 1)
+                self.add(i, j, num, used)
+                if self.helper(board, pos + 1, used):
+                    return True
                     
-                    if res:
-                        return True
-                    
+                self.remove(i, j, num, used)
                 board[i][j] = '.'
                         
         return False
-        
-    def validate(self, board, i_low, i_high, j_low, j_high):
-        hashset = set()
-        for i in range(i_low, i_high + 1):
-            for j in range(j_low, j_high + 1):
-                if board[i][j] == '.':
-                    continue
-                    
-                if board[i][j] in hashset:
-                    return False
-                
-                hashset.add(board[i][j])
-                
-        return True
-                class Solution:
-    def solveSudoku(self, board):
-        """
-        :type board: List[List[str]]
-        :rtype: void Do not return anything, modify board in-place instead.
-        """
-        if not board or not board[0]:
-            return None
-        
-        #i, j is to be filled
-        self.helper(board, 0)
-        
-    
-    def helper(self, board, pos):
-        if pos >= 81:
-            return True
-        
-        i = pos // 9
-        j = pos % 9
-        if board[i][j] != '.':
-            return self.helper(board, pos + 1)
-        else:
-            for num in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                board[i][j] = num
-                if self.validate(board, i, i, 0, 8) and self.validate(board, 0, 8, j, j) and self.validate(board, i // 3 * 3, i // 3 * 3 + 2, j // 3 * 3, j // 3 * 3 + 2):
-                    res = self.helper(board, pos + 1)
-                    
-                    if res:
-                        return True
-                    
-                board[i][j] = '.'
-                        
-        return False
-        
-    def validate(self, board, i_low, i_high, j_low, j_high):
-        hashset = set()
-        for i in range(i_low, i_high + 1):
-            for j in range(j_low, j_high + 1):
-                if board[i][j] == '.':
-                    continue
-                    
-                if board[i][j] in hashset:
-                    return False
-                
-                hashset.add(board[i][j])
-                
-        return True
                 
