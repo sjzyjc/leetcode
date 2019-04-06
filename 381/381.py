@@ -1,61 +1,61 @@
+from collections import defaultdict
+import random
 class RandomizedCollection:
 
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        self.map = {}
-        self.list = []
+        self.arr = []
+        self.idx_map = defaultdict(set)
         
 
-    def insert(self, val):
+    def insert(self, val: int) -> bool:
         """
         Inserts a value to the collection. Returns true if the collection did not already contain the specified element.
-        :type val: int
-        :rtype: bool
         """
-        is_not_contained = False
-        if val not in self.map:
-            self.map[val] = set()
-            is_not_contained = True
-        
-        self.map[val].add(len(self.list))
-        self.list.append(val)
-        return is_not_contained
-        
+        ans = False
+        if val not in self.idx_map:
+            ans = True
             
+        self.arr.append(val)
+        self.idx_map[val].add(len(self.arr) - 1)
+        return ans
         
 
-    def remove(self, val):
+    def remove(self, val: int) -> bool:
         """
         Removes a value from the collection. Returns true if the collection contained the specified element.
-        :type val: int
-        :rtype: bool
         """
-        if val in self.map:
-            index = next(iter(self.map[val]))
-            last_num = self.list[-1]
-            self.list[index], self.list[-1] = self.list[-1], self.list[index]
-            
-            self.map[val].remove(index)
-            self.map[last_num].add(index)
-            self.map[last_num].remove(len(self.list) - 1)
-            
-            self.list.pop()
-            if len(self.map[val]) == 0:
-                del self.map[val]
-            
-            return True
+        if val not in self.idx_map:
+            return False
         
-        return False
+        last_val = self.arr[-1]
+        
+        if last_val == val:
+            self.idx_map[val].remove(len(self.arr) - 1)
+        else:
+            idx = next(iter(self.idx_map[val]))
+            self.arr[idx], self.arr[-1] = self.arr[-1], self.arr[idx]
+        
+            self.idx_map[val].remove(idx)
+            self.idx_map[last_val].remove(len(self.arr) - 1)
+            self.idx_map[last_val].add(idx)
+        
+        if len(self.idx_map[val]) == 0:
+            del self.idx_map[val]
+        
+        self.arr.pop()
+        
+        return True
         
 
-    def getRandom(self):
+    def getRandom(self) -> int:
         """
         Get a random element from the collection.
-        :rtype: int
         """
-        return self.list[random.randint(0, len(self.list) - 1)]
+        return self.arr[random.randint(0, len(self.arr) - 1)]
+        
 
 
 # Your RandomizedCollection object will be instantiated and called as such:

@@ -42,7 +42,3 @@ class Solution(object):
                       
         return [ans_l, ans_h]
                     
-        
-        
-        
-        

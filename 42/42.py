@@ -7,11 +7,9 @@ class Solution(object):
         if not height:
             return 0
         
-        left = 1
-        right = len(height) - 2
-        
-        left_max = height[0]
-        right_max = height[-1]
+        left = 0
+        right = len(height) - 1
+        left_max = right_max = 0
         
         ans = 0
         while left <= right:

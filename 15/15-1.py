@@ -37,6 +37,3 @@ class Solution(object):
                     j -= 1
                     
         return ans
-                        
-                    
-            

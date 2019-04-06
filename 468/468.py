@@ -3,7 +3,6 @@ class Solution:
         if not IP:
             return "Neither"
         
-        
         if self.isIPv4(IP):
             return "IPv4"
         
@@ -17,7 +16,6 @@ class Solution:
         tmp = ""
         count = 0
         for index, charr in enumerate(ip):
-            #print(tmp)
             if not (charr.isdigit() or charr == '.'):
                 return False
         
@@ -48,7 +46,6 @@ class Solution:
                     return False
                 
                 tmp = ""
-                
             else:
                 tmp += charr
                 

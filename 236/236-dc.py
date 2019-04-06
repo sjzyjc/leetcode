@@ -1,11 +1,11 @@
 # Definition for a binary tree node.
-# class TreeNode(object):
+# class TreeNode:
 #     def __init__(self, x):
 #         self.val = x
 #         self.left = None
 #         self.right = None
 
-class Solution(object):
+class Solution:
     def lowestCommonAncestor(self, root, p, q):
         """
         :type root: TreeNode
@@ -14,32 +14,34 @@ class Solution(object):
         :rtype: TreeNode
         """
         if not root:
-            return None
+            return -1
         
-        return self.helper(root, p, q)[2]
-        
+        self.ans = None
+        self.helper(root, p, q)
+        return self.ans
     
-    def helper(self, root, p, q):
-        if not root:
-            return False, False, None
+    
+    def helper(self, node, p, q):
+        if not node:
+            return False, False
         
-        left_has_p, left_has_q, left_lca = self.helper(root.left, p, q)
-        right_has_p, right_has_q, right_lca = self.helper(root.right, p, q)
+        l_found_p, l_found_q = self.helper(node.left, p, q)
+        r_found_p, r_found_q = self.helper(node.right, p, q)
         
-        if left_lca:
-            return True, True, left_lca
+        #if p, q not each other's ancester
+        if (l_found_p and r_found_q) or (l_found_q and r_found_p):
+            self.ans = node
         
-        if right_lca:
-            return True, True, right_lca
+        found_p = l_found_p or r_found_p
+        found_q = l_found_q or r_found_q
+        if node == p:
+            found_p = True
+            if l_found_q or r_found_q:
+                self.ans = p
+            
+        if node == q:
+            found_q = True
+            if l_found_p or r_found_p:
+                self.ans = q
         
-        has_p = left_has_p or right_has_p or (root == p)
-        has_q = left_has_q or right_has_q or (root == q)
-        
-        if (left_has_p and right_has_q) or (left_has_q and right_has_p) or (root == p and has_q) or (root == q and has_p):
-            return True, True, root
-        
-        return has_p, has_q, None
-        
-        
-        
-        
+        return found_p, found_q

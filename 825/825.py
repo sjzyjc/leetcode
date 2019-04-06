@@ -24,13 +24,3 @@ class Solution:
             ans += ps[upper_bound] - ps[lower_bound] - 1
             
         return ans
-            
-                
-            
-            
-            
-                
-            
-            
-        
-        

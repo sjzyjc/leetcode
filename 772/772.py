@@ -53,12 +53,3 @@ class Solution:
             else:
                 stack.append(last_expr // second)
         
-                    
-                
-                    
-                    
-                
-                
-                
-        
-        

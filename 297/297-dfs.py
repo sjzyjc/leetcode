@@ -5,6 +5,7 @@
 #         self.left = None
 #         self.right = None
 
+from collections import deque
 class Codec:
 
     def serialize(self, root):
@@ -14,10 +15,9 @@ class Codec:
         :rtype: str
         """
         if not root:
-            return ['#']
+            return '#'
         
-        ans = [root.val]
-        return ans + self.serialize(root.left) + self.serialize(root.right)
+        return str(root.val) + '|' + self.serialize(root.left) + '|' + self.serialize(root.right)
         
 
     def deserialize(self, data):
@@ -26,16 +26,23 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        val = data.pop(0)
+        if data == '#':
+            return None
+        
+        data = deque(data.split('|'))
+        return self.helper(data)
+    
+    def helper(self, data):
+        val = data.popleft()
+        
         if val == '#':
             return None
         
         root = TreeNode(val)
-        
-        root.left = self.deserialize(data)
-        root.right = self.deserialize(data)
-        
+        root.left = self.helper(data)
+        root.right = self.helper(data)
         return root
+        
         
         
 

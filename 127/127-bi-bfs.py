@@ -44,5 +44,3 @@ class Solution:
             level += 2
                         
         return 0
-                    
-        

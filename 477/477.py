@@ -1,23 +1,16 @@
-class Solution(object):
-    def totalHammingDistance(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: int
-        """
+class Solution:
+    def totalHammingDistance(self, nums: List[int]) -> int:
         if not nums:
             return 0
         
-        one_count = [0 for _ in range(32)]
-        total = len(nums)
-                
+        count_1s = [0 for _ in range(32)]
         for num in nums:
-            i = 0
-            while (num >> i) > 0:
-                one_count[i] += (num >> i) & 1
-                i += 1
-                
+            for shift in range(32):
+                count_1s[shift] += (num >> shift) & 1
+        
+        total = len(nums)
         ans = 0
-        for count in one_count:
+        for count in count_1s:
             ans += count * (total - count)
             
         return ans

@@ -44,4 +44,3 @@ class Solution(object):
             ptr2 -= 1
             
         return True
-            

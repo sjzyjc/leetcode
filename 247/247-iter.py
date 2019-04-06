@@ -27,13 +27,4 @@ class Solution(object):
             #print(center)
             
         return center
-                    
-            
-                    
-                    
-                    
-                        
-                        
         
-        
-            

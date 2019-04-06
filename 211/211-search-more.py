@@ -53,7 +53,6 @@ class WordDictionary:
         return self.trie.search(word + '#')
         
 
-
 # Your WordDictionary object will be instantiated and called as such:
 # obj = WordDictionary()
 # obj.addWord(word)

@@ -3,19 +3,18 @@ class Solution:
         if not words or maxWidth <= 0:
             return []
         
-        i, j = 0, 1
+        i = 0
         ans = []
-        while j < len(words):
-            print(j, i)
+        while i < len(words):
             line, cur_len = [words[i]], len(words[i])
+            j = i + 1
             while j < len(words) and cur_len + 1 + len(words[j]) <= maxWidth:
-                print(j, line)
                 line.append(words[j])
                 cur_len += (len(words[j]) + 1)
                 j += 1
                 
             i = j
-            if j == len(words) or i == len(words) - 1:
+            if i == len(words):
                 line_str = " ".join(line)
                 ans.append(line_str + " " * (maxWidth - len(line_str)))
                 break
@@ -31,11 +30,6 @@ class Solution:
                     else:
                         tmp += ' ' * (ave_space + 1)
                         
-                ans.append(tmp[:maxWidth])
-            
+                ans.append(tmp[:maxWidth])   
               
         return ans
-                
-sl = Solution()
-arr = ["This", "is", "an", "example", "of", "text", "justification."]
-print(sl.fullJustify(arr, 16))

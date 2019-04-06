@@ -3,6 +3,7 @@ class Solution(object):
         """
         :type nums: List[int]
         :rtype: List[int]
+        since each time update only amend 1 no need to have the orignal arr
         """
         if not nums:
             return []

@@ -27,7 +27,6 @@ class Solution:
             ans.append(UNIT[index])
             
         ans.extend(self.helper(arr[-1]))
-        #print(ans)
         return " ".join(ans)
     
     def helper(self, val):
@@ -56,10 +55,3 @@ class Solution:
         return ans
         
             
-            
-            
-            
-    
-        
-        
-        

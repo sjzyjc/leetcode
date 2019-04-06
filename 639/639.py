@@ -35,7 +35,6 @@ class Solution:
             two = one
             one = cur
                         
-        #print(f)
         return cur
                 
         

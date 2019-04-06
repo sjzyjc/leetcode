@@ -60,8 +60,3 @@ class Solution:
                 ans.append([w_index, j])
                 
         return ans
-            
-            
-            
-                    
-        
