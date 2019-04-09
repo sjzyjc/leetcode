@@ -1,26 +1,23 @@
 class Solution:
-    def searchMatrix(self, matrix, target):
-        """
-        :type matrix: List[List[int]]
-        :type target: int
-        :rtype: bool
-        """
-        if matrix is None or len(matrix) == 0 or len(matrix[0]) == 0:
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        if not matrix or not matrix[0]:
             return False
         
-        num_list = []
-        for row in matrix:
-            num_list += row
-
-        start, end = 0, len(num_list) - 1
-
-        while start < end:
-            mid  = start + (end - start) // 2
-            if num_list[mid] == target:
+        start = 0
+        end = len(matrix) * len(matrix[0]) - 1
+        width = len(matrix[0])
+        
+        while start <= end:
+            mid = (start + end) // 2
+            val = matrix[mid // width][mid % width] 
+            if val == target:
                 return True
-            elif num_list[mid] < target:
+            
+            elif val < target:
                 start = mid + 1
             else:
                 end = mid - 1
-
-        return num_list[start] == target  
+                
+        return False
+            
+        
