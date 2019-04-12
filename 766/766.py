@@ -3,14 +3,13 @@ class Solution:
         if not matrix or matrix[0] is None:
             return False
         
-        for col in range(len(matrix[0])):
-            row = len(matrix) - 1            
+        row = len(matrix) - 1         
+        for col in range(len(matrix[0])):  
             if not self.checker(row, col, matrix[row][col], matrix):
                 return False
                 
+        col = len(matrix[0]) - 1
         for row in range(len(matrix) - 1, -1, -1):
-            col = len(matrix[0]) - 1
-
             if not self.checker(row, col, matrix[row][col], matrix):
                 return False
                 
