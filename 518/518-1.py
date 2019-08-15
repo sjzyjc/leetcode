@@ -16,8 +16,3 @@ class Solution:
                     
                     
         return f[-1]
-        
-        
-        
-
-    

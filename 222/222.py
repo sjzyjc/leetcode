@@ -10,38 +10,27 @@ class Solution:
         """
         :type root: TreeNode
         :rtype: int
+        T: logN ^ logN
         """
         if not root:
             return 0
         
-        left_most_depth = self.leftDepth(root)
-        right_most_depth = self.rightDepth(root)
+        left_edge = self.findLeft(root.left)
+        right_edge = self.findRight(root.right)
         
-        #perfect tree
-        if left_most_depth == right_most_depth:
-            return (1 << left_most_depth) - 1
+        if left_edge == right_edge:
+            return (1 << (left_edge + 1)) - 1 
         
-        return 1 + self.countNodes(root.left) + self.countNodes(root.right)
+        return self.countNodes(root.left) + self.countNodes(root.right) + 1
     
-    def leftDepth(self, node):
+    def findLeft(self, node):
         if not node:
             return 0
         
-        depth = 0
-        while node:
-            node = node.left
-            depth += 1
-        
-        return depth
+        return self.findLeft(node.left) + 1
     
-    def rightDepth(self, node):
+    def findRight(self, node):
         if not node:
             return 0
         
-        depth = 0
-        while node:
-            node = node.right
-            depth += 1
-            
-        return depth
-            
+        return self.findRight(node.right) + 1

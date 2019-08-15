@@ -8,29 +8,23 @@ class Solution:
             return ""
         
         ans = ""
-        
         for i in range(len(s)):
-            #odd
-            tmp_ans = s[i]
-            for j in range(1, len(s)):
-                if i - j >= 0 and i + j < len(s) and s[i - j] == s[i + j]:
-                    tmp_ans = s[i - j : i + j + 1]
-                else:
-                    break
-                    
-            if len(tmp_ans) > len(ans):
-                ans = tmp_ans
-            
-            #even
-            tmp_ans = ""
-            for j in range(0, len(s)):
-                if i - j >= 0 and i + j + 1 < len(s) and s[i - j] == s[i + 1 + j]:
-                    tmp_ans = s[i - j : i + j + 1 + 1]
-                else:
-                    break
-                 
-            if len(tmp_ans) > len(ans):
-                ans = tmp_ans
+            #aba
+            left = right = i
+            while left >= 0 and right < len(s) and s[left] == s[right]:
+                if right - left + 1 > len(ans):
+                    ans = s[left:right + 1]
+                left -= 1
+                right += 1
+                
+            #abba
+            left = i
+            right = i + 1
+            while left >= 0 and right < len(s) and s[left] == s[right]:
+                if right - left + 1 > len(ans):
+                    ans = s[left:right + 1]
+                
+                left -= 1
+                right += 1
             
         return ans
-                    

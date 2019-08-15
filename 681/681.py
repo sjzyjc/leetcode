@@ -5,26 +5,20 @@ class Solution:
     """
     def nextClosestTime(self, time):
         # write your code here
-        digits = [int(i) for i in time if i != ":"]
+        time_set = set(time)
         cur_min = int(time[:2]) * 60 + int(time[3:])
-        
+              
         while True:
-            cur_min = (cur_min + 1) % 1440
+            cur_min += 1
+            cur_min %= 1440
             
-            hour = cur_min // 60
-            minute = cur_min % 60
+            m1 = str((cur_min % 60) % 10)
+            m2 = str((cur_min % 60) // 10)
+            h1 = str((cur_min // 60) % 10)
+            h2 = str((cur_min // 60) // 10)
             
-            if not (0 <= hour < 24 and 0 <= minute <= 60):
-                continue
+            if m1 in time_set and m2 in time_set and h1 in time_set and h2 in time_set:
+                return h2 + h1 + ":" + m2 + m1
             
-            if (hour // 10) in digits and (hour % 10) in digits and (minute // 10) in digits and (minute % 10) in digits:
-                str_hour = str(hour) 
-                str_minute = str(minute)
-                if hour < 10:
-                    str_hour = "0" + str_hour
-                    
-                if minute < 10:
-                    str_minute = "0" + str_minute
-                return str_hour + ":" + str_minute
-                
-        return time
+        return cur_min
+            
